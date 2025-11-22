@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft - Boutique</title>
+    <link rel="stylesheet" href="../styles/index.css">
+    <link rel="stylesheet" href="../styles/server.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-minecraft minecraft-bg">
+    <div id="page-transition" class="transition-hidden"></div>
+    <header>
+        <nav class="navbar">
+            <div class="logo"><a href="accueil.html"><img src="images/whospace_logo.png" alt="Whospace" class="logo-img"></a><span id="destroyCounter" style="display:none;">Blocs détruits : 0 | Rapidité : 0/s</span></div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Retour au HUB</a></li>
+                <li><a href="accueil.html">Accueil</a></li>
+                <li><a href="qui-sommes-nous.html">Qui sommes-nous</a></li>
+                <li><a href="boutique.html">Boutique</a></li>
+                <li><a href="chat.html">Chat</a></li>
+                <li><a href="https://discord.gg/GjbkUGGXrD" target="_blank">Discord</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="server-shop">
+            <h1>Boutique Minecraft</h1>
+            <p>Achetez des cosmétiques, grades et utilitaires pour votre expérience en jeu.</p>
+
+            <div id="productGrid" class="product-grid">
+                <!-- produits chargés dynamiquement depuis Firestore -->
+            </div>
+
+            <div class="admin-panel admin-only" id="adminShopPanel">
+                <h3>Administration boutique</h3>
+                <button class="btn" id="addSampleProducts">Ajouter produits exemples</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // renderer for products (uses whospaceApp API)
+        function renderProducts(products){
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+            if(!products || !products.length){
+                grid.innerHTML = '<p class="muted">La boutique est vide pour l’instant.</p>';
+                return;
+            }
+            products.forEach(p=>{
+                const art = document.createElement('article');
+                art.className = 'product-card';
+                art.innerHTML = `
+                    <img src="${p.image || '../images/item_skin.png'}" alt="${p.name}">
+                    <h3>${p.name}</h3>
+                    <p>${p.description || ''}</p>
+                    <div class="price" data-id="${p.id}">${(p.price || 0).toFixed(2)} €</div>
+                    <div class="card-actions">
+                        <button class="btn buy-btn" data-id="${p.id}">Acheter</button>
+                        <span class="admin-only edit-controls" data-id="${p.id}">
+                            <input type="number" min="0" step="0.01" class="price-input" value="${(p.price||0).toFixed(2)}" style="width:90px">
+                            <button class="btn small save-price" data-id="${p.id}">Enregistrer</button>
+                        </span>
+                    </div>
+                `;
+                grid.appendChild(art);
+            });
+
+            // attach events
+            document.querySelectorAll('.buy-btn').forEach(btn=>{
+                btn.onclick = (e)=>{
+                    const id = e.currentTarget.dataset.id;
+                    if(window.whospaceApp) window.whospaceApp.buyProduct(id);
+                };
+            });
+            document.querySelectorAll('.save-price').forEach(btn=>{
+                btn.onclick = (e)=>{
+                    const id = e.currentTarget.dataset.id;
+                    const input = document.querySelector('.price-input[data-id="'+id+'"]') || e.currentTarget.parentElement.querySelector('.price-input');
+                    const val = parseFloat(input.value || 0);
+                    if(!isFinite(val)) return alert('Prix invalide');
+                    if(window.whospaceApp) window.whospaceApp.updateProductPrice(id, val).catch(err=>alert('Erreur: '+err.message));
+                };
+            });
+        }
+
+        // wire to whospaceApp
+        document.addEventListener('DOMContentLoaded', ()=>{
+            if(window.whospaceApp){
+                window.whospaceApp.listenProducts(renderProducts);
+                window.whospaceApp.initPage('boutique');
+                // admin sample add
+                document.getElementById('addSampleProducts').addEventListener('click', ()=>{
+                    const samples = [
+                        {name:'Pack de skins', description:'5 skins exclusifs', price:5.00, image:'images/item_skin.png'},
+                        {name:'Grade VIP', description:'Accès prioritaire & cosmétiques', price:12.00, image:'images/item_rank.png'}
+                    ];
+                    samples.forEach(s=>window.whospaceApp.createProductIfMissing(s));
+                });
+            }
+        });
+    </script>
+
+    <!-- Firebase SDKs + app -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-app.js"></script>
+
+    <!-- updated transition script path -->
+    <script src="javascript/transition.js"></script>
+    <audio id="plopSound" src="sounds/plop.mp3" preload="auto"></audio>
+    <link rel="stylesheet" href="style.css">
+
+</body>
+</html>

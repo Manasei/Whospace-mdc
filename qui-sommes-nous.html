@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft - Qui sommes-nous</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-minecraft minecraft-bg">
+    <div id="page-transition" class="transition-hidden"></div>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="accueil.html"><img src="images/MDC_logo.png" alt="Logo de MDC" class="logo-img"></a>
+                <span id="destroyCounter" style="display:none;">Blocs détruits : 0 | Rapidité : 0/s</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Retour au HUB</a></li>
+                <li><a href="accueil.html">Accueil</a></li>
+                <li><a href="qui-sommes-nous.html">Qui sommes-nous</a></li>
+                <li><a href="boutique.html">Boutique</a></li>
+                <li><a href="chat.html">Chat</a></li>
+                <li><a href="https://discord.gg/GjbkUGGXrD" target="_blank">Discord</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+        <section class="server-hero qui-bg">
+            <h1>Qui sommes‑nous ?</h1>
+            <p style="max-width:900px;margin:0.6rem auto;text-align:center;">
+                Whospace est une communauté francophone dédiée au jeu et à la création. Nous proposons un serveur Minecraft axé sur la survie économique, animé par une équipe bénévole qui organise des événements, maintient le serveur et accompagne les joueurs.
+            </p>
+        </section>
+
+        <section class="team" style="text-align:center;padding:1.6rem 1.2rem;">
+            <h2>Notre équipe</h2>
+            <div class="team-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;max-width:1000px;margin:1rem auto;">
+                <!-- Directeur de Whospace -->
+                <div class="member" style="background:rgba(255,255,255,0.02);padding:1rem;border-radius:10px;">
+                    <!-- avatar (will be filled by lanyard.js) -->
+                    <img src="images/member_lead.png" alt="PDP de doctorwho59." class="discord-avatar" data-user="932598398186573854" style="width:80px;height:80px;border-radius:12px;object-fit:cover;margin-bottom:8px;">
+                    <h3>Directeur de Whospace</h3>
+                    <!-- username filled by lanyard.js -->
+                    <div class="discord-username" data-user="1330301618931105887">Chargement pseudo…</div>
+                    <p>Coordination du serveur, événements et communication.</p>
+                    <!-- status: compact dot + pseudo handled by lanyard.js -->
+                    <div class="discord-presence minimal" data-user="1330301618931105887" title="Statut Discord">
+                        <span class="presence-dot"></span>
+                    </div>
+                </div>
+
+                <!-- Fondateur de MDC -->
+                <div class="member" style="background:rgba(255,255,255,0.02);padding:1rem;border-radius:10px;">
+                    <img src="images/member_dev.png" alt="pdp de Manasei" class="discord-avatar" data-user="999335897612955658" style="width:80px;height:80px;border-radius:12px;object-fit:cover;margin-bottom:8px;">
+                    <h3>Fondateur de MDC</h3>
+                    <div class="discord-username" data-user="999335897612955658">Chargement pseudo…</div>
+                    <p>Coordination technique, plugins, sécurité et direction du projet MDC.</p>
+                    <div class="discord-presence" data-user="999335897612955658">Chargement Discord…</div>
+                </div>
+
+                <!-- Avocat de Whospace -->
+                <div class="member" style="background:rgba(255,255,255,0.02);padding:1rem;border-radius:10px;">
+                    <img src="images/member_builder.png" alt="PDP de conptesecourxgamer" class="discord-avatar" data-user="1104813039745765486" style="width:80px;height:80px;border-radius:12px;object-fit:cover;margin-bottom:8px;">
+                    <h3>Avocat de Whospace</h3>
+                    <div class="discord-username" data-user="1104813039745765486">Chargement pseudo…</div>
+                    <p>Gestion juridique de la communauté.</p>
+                    <div class="discord-presence minimal" data-user="1104813039745765486" title="Statut Discord">
+                        <span class="presence-dot"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="timeline" spellcheck="false">
+            <h2>Notre histoire</h2>
+                <ol>
+                <li><strong>2022</strong> : Lancement de Whospace (idée & communauté).</li>
+                <li><strong>2023</strong> : Bêta du serveur Survie.</li>
+                <li><strong>2025</strong> : Ouverture publique et préparation de la boutique.</li>
+                </ol>
+        </div>
+
+    </main>
+    <footer>
+        <p>&copy; 2025 Whospace Community. Inspiré par Doctor Who et l'espace.</p>
+    </footer>
+
+    <!-- Firebase SDKs + app -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-app.js"></script>
+    <script>if(window.whospaceApp) window.whospaceApp.initPage('qui-sommes-nous');</script>
+
+    <!-- load Lanyard presence script (used to fetch avatar / username / status) -->
+    <script src="javascript/lanyard.js"></script>
+
+    <!-- updated transition script path -->
+    <script src="javascript/transition.js"></script>
+    <script src="javascript/blocks.js"></script>
+    <audio id="plopSound" src="sounds/plop.mp3" preload="auto"></audio>
+</body>
+</html>

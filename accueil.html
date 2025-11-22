@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft - Whospace</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-minecraft minecraft-bg">
+    <div id="page-transition" class="transition-hidden"></div>
+    <div class="minecraft-block" style="top: 80px; left: 10vw;"></div>
+    <div class="minecraft-block" style="top: 200px; left: 80vw; animation-delay: 1.2s;"></div>
+    <div class="minecraft-block" style="top: 400px; left: 50vw; animation-delay: 2s;"></div>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="accueil.html" title="Whospace - Accueil">
+                    <img src="images/MDC_logo.png" alt="Whospace" class="logo-img">
+                </a>
+                <span id="destroyCounter" style="display:none;">Blocs détruits : 0 | Rapidité : 0/s</span>
+            </div>
+                <audio id="plopSound" src="sounds/plop.mp3" preload="auto"></audio>
+
+            <ul class="nav-links">
+                <li><a href="../index.html">Retour au HUB</a></li>
+                <li><a href="accueil.html">Accueil</a></li>
+                <li><a href="qui-sommes-nous.html">Qui sommes-nous</a></li>
+                <li><a href="boutique.html">Boutique</a></li>
+                <li><a href="chat.html">Chat</a></li>
+                <li><a href="https://discord.gg/" target="_blank">Discord</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="server-hero">
+            <h1>Minecraft Whospace</h1>
+            <p>Serveur survie axé économie, événements communautaires et support actif — créatif & mini-jeux arrivent bientôt.</p>
+            <a class="discord-btn" href="https://discord.gg/GjbkUGGXrD" target="_blank">
+                <img src="images/discord_logo.png" alt="Discord" class="discord-icon">
+                Rejoindre le Discord Minecraft
+            </a>
+
+        </section>
+
+        <section class="features">
+            <h2>Ce que nous proposons :</h2>
+<div class="feature-grid">
+    <!-- Carte 1 -->
+    <div class="server-mini" id="topServersMini">
+        <img src="images/MDC_SURVIVAL.png" alt="MDC SURVIVAL" class="mini-logo" />
+        <div class="mini-info">
+            <div class="mini-name">Survie</div>
+            <div class="mini-desc">Monde persistant, commerce, métiers et marché communautaire.</div>
+            <div class="mini-stats muted">Chargement des statistiques…</div>
+        </div>
+    </div>
+
+    <!-- Carte 2 -->
+    <div class="server-mini" id="topServersMini">
+        <img src="images/loading.gif" alt="MDC SURVIVAL" class="mini-logo" />
+        <div class="mini-info">
+            <div class="mini-name">Plus encore...</div>
+            <div class="mini-desc"><b>Nous verront ce que l'avenir nous réserve...</b></div>
+        </div>
+    </div>
+</div>
+
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Whospace Community.</p>
+    </footer>
+
+    <!-- Login modal (réutilisable sur toutes les pages) -->
+    <div class="modal-backdrop" id="loginModal" aria-hidden="true">
+        <div class="modal">
+            <button class="modal-close" id="closeModal">&times;</button>
+            <h2 id="authTitle">Connexion</h2>
+
+            <!-- toggle link -->
+            <div style="text-align:right;margin-bottom:8px;">
+                <a href="#" id="toggleAuth" class="muted">Créer un compte</a>
+            </div>
+
+            <form id="loginForm" class="login-form" data-mode="login">
+                <label>Adresse email
+                    <input name="username" type="email" required placeholder="email@example.com">
+                </label>
+                <label>Mot de passe
+                    <input name="password" type="password" required placeholder="••••••">
+                </label>
+                <div class="form-actions">
+                    <button type="submit" class="btn primary" id="authSubmit">Se connecter</button>
+                    <button type="button" class="btn" id="cancelLogin">Annuler</button>
+                </div>
+            </form>
+            <p class="muted">Prototype : pour production, sécurisez via règles Firestore / claims.</p>
+        </div>
+    </div>
+
+    <!-- Top-Serveurs integration -->
+    <script>
+        window.TOP_SERVER_TOKEN = 'CV3YXVBMTS6F3R';
+        window.TOP_SERVERS_BASE = 'https://api.top-serveurs.net/v1';
+    </script>
+    <script src="topservers.js"></script>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <!-- App logic (nouveau) -->
+    <script src="firebase-app.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', ()=>{
+            const toggle = document.getElementById('toggleAuth');
+            const form = document.getElementById('loginForm');
+            const title = document.getElementById('authTitle');
+            const submit = document.getElementById('authSubmit');
+            if(!toggle || !form) return;
+            toggle.addEventListener('click', e=>{
+                e.preventDefault();
+                const mode = form.dataset.mode === 'login' ? 'register' : 'login';
+                form.dataset.mode = mode;
+                if(mode === 'register'){
+                    title.textContent = 'Créer un compte';
+                    submit.textContent = 'S\'inscrire';
+                    toggle.textContent = 'Déjà un compte ?';
+                }else{
+                    title.textContent = 'Connexion';
+                    submit.textContent = 'Se connecter';
+                    toggle.textContent = 'Créer un compte';
+                }
+            });
+        });
+    </script>
+
+    <!-- updated transition script path (served from minecraft/javascript/) -->
+    <script src="javascript/transition.js"></script>
+    <script src="javascript/blocks.js"></script>
+    <audio id="plopSound" src="sounds/plop.mp3" preload="auto"></audio>
+</body>
+</html>
